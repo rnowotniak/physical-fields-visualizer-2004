@@ -1,0 +1,96 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0105 
+header_name {.h} 
+code_name {.cxx}
+decl {\#include "widok.h"} {public
+} 
+
+decl {\#include "app.h"} {public
+} 
+
+class UserInterface {open
+} {
+  Function {UserInterface()} {open
+  } {
+    Fl_Window okno1 {
+      label {Pola fizyczne} open
+      xywh {421 293 800 600} type Double visible
+    } {
+      Fl_Box Widok1 {
+        xywh {0 0 600 600} box THIN_DOWN_FRAME align 64
+        class Widok_t
+      }
+      Fl_Counter numer {
+        label {Number ¼ród³a:}
+        callback {unsigned n = unsigned(numer->value() - 1);
+wlacznik->value(App1.Zrodla[n].wlaczone());
+wsp_x->value(App1.Zrodla[n].x);
+wsp_y->value(App1.Zrodla[n].y);
+ladunek->value(App1.Zrodla[n].q);}
+        xywh {611 40 182 27} align 1 minimum 1 maximum 4 step 1 value 1
+        code0 {o->labelfont(PL_Font);}
+      }
+      Fl_Group {} {open
+        xywh {611 91 182 205} box THIN_DOWN_FRAME
+      } {
+        Fl_Check_Button wlacznik {
+          label {¬ród³o w³±czone}
+          callback {unsigned n = unsigned(numer->value() - 1);
+if (App1.Zrodla[n].wlaczone())
+   App1.Zrodla[n].wylacz();
+else
+   App1.Zrodla[n].wlacz();
+Widok1->redraw();}
+          xywh {630 96 141 25} down_box DOWN_BOX
+          code0 {o->labelfont(PL_Font);}
+        }
+        Fl_Value_Input wsp_x {
+          label {Wspó³rzêdna X:}
+          callback {App1.Zrodla[unsigned(numer->value() - 1)].x = o->value();
+Widok1->redraw();}
+          xywh {666 153 69 22} align 1 minimum -10 maximum 10 step 0.5
+          code0 {o->labelfont(PL_Font);}
+        }
+        Fl_Value_Input wsp_y {
+          label {Wspó³rzêdna Y:}
+          callback {App1.Zrodla[unsigned(numer->value() - 1)].y = o->value();
+Widok1->redraw();}
+          xywh {666 207 69 22} align 1 minimum -10 maximum 10 step 0.5
+          code0 {o->labelfont(PL_Font);}
+        }
+        Fl_Value_Input ladunek {
+          label {£adunek ¼ród³a:}
+          callback {App1.Zrodla[unsigned(numer->value() - 1)].q = o->value();
+Widok1->redraw();}
+          xywh {666 261 69 22} align 1 minimum -10 maximum 10 step 0.5
+          code0 {o->labelfont(PL_Font);}
+        }
+      }
+      Fl_Dial {} {
+        label {Gêsto¶æ linii pola:}
+        callback {App1.gestosc = o->maximum() - o->value() + 0.05;
+Widok1->redraw();} selected
+        xywh {672 379 60 60} type Line color 53 selection_color 1 labelcolor 0 align 1 minimum 0.1 maximum 3 step 0.1 value 0.7
+        code0 {o->labelfont(PL_Font);}
+        code1 {o->value(3 - App1.gestosc);}
+      }
+      Fl_Button {} {
+        label {Rysuj linie pola}
+        callback {Widok1->redraw();}
+        xywh {608 474 186 46}
+        code0 {o->labelfont(PL_Font);}
+      }
+      Fl_Value_Input {} {
+        label {Powiêkszenie:}
+        callback {App1.skala = o->value();
+Widok1->redraw();}
+        xywh {725 320 69 22} minimum 0.1 maximum 100 step 1 value 10
+        code0 {o->labelfont(PL_Font);}
+        code1 {o->value(App1.skala);}
+      }
+    }
+    code {numer->maximum(MAX_ZRODEL);
+okno1->show();} {}
+    code {okno1->show();} {}
+  }
+} 
